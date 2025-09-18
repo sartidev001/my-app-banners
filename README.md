@@ -1,2 +1,2 @@
-# wadifamaroc-banners
+# my-app-banners
 my app banners
