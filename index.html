@@ -1,13 +1,105 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>إعلانات</title>
-</header>
-<body>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إعلانات - Featured Offers & App Ads</title>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom font for a clean, modern look */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8f8fb; /* Light background for the 'store' */
+        }
+        /* Utility to force a responsive 16:9 aspect ratio */
+       
+    </style>
+</head>
+<body class="p-4 sm:p-6">
 
-test banner here
-  
-</body>
+    <div class="max-w-xl mx-auto space-y-8">
+
+        <!-- Header for the Ad Store -->
+        <header class="text-center pb-2">
+            <h1 class="text-2xl font-bold text-gray-800">Featured Offers</h1>
+            <p class="text-sm text-gray-500">Discover new apps and sponsored deals below.</p>
+        </header>
+
+        <!-- 1. CUSTOM APP INSTALL BANNER (Your Primary Ad) -->
+        <div class="p-4 bg-white shadow-lg rounded-xl border border-blue-100 transition duration-300 hover:shadow-xl">
+            <h2 class="text-lg font-semibold mb-3 text-blue-600">🎉 My Morocco News App</h2>
+            
+            <!-- 16:9 Aspect Ratio Container -->
+            <a 
+                href="https://play.google.com/store/apps/details?id=com.sartidev.morocconews" 
+                target="_blank" 
+                class="block rounded-lg overflow-hidden ring-4 ring-blue-500 ring-opacity-50 transition duration-300 transform hover:scale-[1.01]"
+                title="Install my app now!">
+                
+                <!-- The image is loaded from your local app assets -->
+                <img 
+                    src="assets/img/appads.png" 
+                    alt="Install my Morocco News app now" 
+                    onerror="this.onerror=null;this.src='https://placehold.co/1600x900/4c4c4c/ffffff?text=16:9+Custom+App+Ad'"
+                >
+            </a>
+            <p class="text-center text-xs text-gray-400 mt-2">Sponsored Link</p>
+        </div>
+
+        <!-- 2. ADSTERRA NATIVE BANNER PLACEHOLDER (The second item in the 'store') -->
+        <div class="p-4 bg-white shadow-lg rounded-xl border border-green-100">
+            <h2 class="text-lg font-semibold mb-3 text-green-600">✨ Premium Sponsorship Opportunity</h2>
+            <div class="border-2 border-dashed border-green-300 bg-green-50 p-6 text-center text-sm text-gray-600 rounded-lg h-32 flex items-center justify-center">
+                <!-- 
+                    *** PASTE YOUR ADSTERRA NATIVE BANNER CODE HERE ***
+                    
+                    The Adsterra code will replace this placeholder content. 
+                    Native Banners are best for blending into the "list" style.
+                -->
+                <a 
+                href="mailto:sartidev@gmail.com?subject=Inquiry%20about%20Ad%20Placement" 
+                target="_blank"
+                class="block w-full h-full"
+                title="Contact us for direct ad placement">
+                <div class="ad-cta border-green-500 bg-green-50 text-gray-800 hover:bg-green-100">
+                    <p class="text-base font-bold mb-1">Annonce: Advertise Here!</p>
+                    <p class="text-sm">Reach our engaged audience with a direct ad placement.</p>
+                    <p class="text-xs mt-2 text-green-800">Interested? Contact: <span class="font-semibold underline">sartidev@gmail.com</span></p>
+                </div>
+            </a>
+
+            
+            </div>
+        </div>
+        
+        <!-- 3. ADSTERRA DISPLAY BANNER PLACEHOLDER (Another 'store item') -->
+        <div class="p-4 bg-white shadow-lg rounded-xl border border-purple-100">
+            <h2 class="text-lg font-semibold mb-3 text-purple-600">🖼️ Exclusive Display Banner Slot</h2>
+            <div class="border-2 border-dashed border-purple-300 bg-purple-50 p-6 text-center text-sm text-gray-600 rounded-lg h-32 flex items-center justify-center">
+                <!-- 
+                    *** PASTE YOUR ADSTERRA DISPLAY BANNER CODE HERE ***
+                    
+                    Use a responsive size (e.g., 320x50 or 300x250) for mobile compatibility.
+                -->
+                <a 
+                href="mailto:sartidev@gmail.com?subject=Inquiry%20about%20Display%20Banner" 
+                target="_blank"
+                class="block w-full h-full"
+                title="Contact us for direct banner placement">
+                <div class="ad-cta border-purple-500 bg-purple-50 text-gray-800 hover:bg-purple-100">
+                    <p class="text-base font-bold mb-1">Your Business Banner Here!</p>
+                    <p class="text-sm">Secure a high-visibility banner spot in the app.</p>
+                    <p class="text-xs mt-2 text-purple-800">Email: <span class="font-semibold underline">sartidev@gmail.com</span></p>
+                </div>
+            </a>
+
+            </div>
+        </div>
+
+    </div>
+
+</body>^$
+
 </html>
