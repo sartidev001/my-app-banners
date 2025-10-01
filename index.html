@@ -1,14 +1,118 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Webview Ads Manager</title>
-    <script type="module" crossorigin src="/assets/index-bc0811ba.js"></script>
-    <link rel="stylesheet" href="/assets/index-c9c77a58.css">
-  </head>
-  <body>
-    <div id="root"></div>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AdSpot - Home</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-gray-100">
+  <div class="container mx-auto p-6">
+    <div id="landing-section">
+      <div class="text-center py-12 px-6 bg-white rounded-lg shadow-lg mb-8">
+        <h1 class="text-4xl font-bold mb-2">Premium Ad Experience</h1>
+        <p class="text-lg text-gray-600">Discover exceptional brands and services through our curated collection of premium advertisements</p>
+      </div>
+      <h2 class="text-2xl font-bold mb-4 text-center">Explore Categories</h2>
+      <div id="categoryGrid" class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        </div>
+    </div>
     
-  </body>
+    <div id="adsSection" class="hidden">
+      <div id="ad-header" class="p-6 rounded-lg shadow-lg mb-6 text-white text-center">
+        <button id="backButton" class="float-left text-white px-4 py-2 rounded-full hover:bg-white hover:bg-opacity-20 transition-colors duration-300">
+          ← Back to Categories
+        </button>
+        <div class="clear-both"></div>
+        <h2 id="adsTitle" class="text-3xl font-bold mb-1"></h2>
+        <p id="adsDesc" class="text-lg opacity-80"></p>
+        <p id="adsCount" class="text-sm mt-1"></p>
+      </div>
+      <div id="adsGrid" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        </div>
+    </div>
+  </div>
+  <script>
+    const categories = [
+      { name: "Technology", icon: "💻", desc: "Latest tech products and services", color: "card-gradient-blue" },
+      { name: "Fashion & Beauty", icon: "👗", desc: "Clothing, accessories, and beauty products", color: "card-gradient-pink" },
+      { name: "Travel & Tourism", icon: "✈️", desc: "Hotels, flights, and travel experiences", color: "card-gradient-orange" },
+      { name: "Food & Beverage", icon: "☕", desc: "Restaurants, cafes, and food delivery", color: "card-gradient-green" },
+      { name: "Finance", icon: "💰", desc: "Financial services, tools, and advice", color: "card-gradient-red" },
+      { name: "Fitness", icon: "🏋️", desc: "Medical services, gyms, and wellness", color: "card-gradient-purple" }
+    ];
+    const ads = [
+      { category: "Technology", title: "MacBook Pro M3 Max", desc: "Power Beyond Limits", img: "https://via.placeholder.com/300x200", expiry: "2025-01-01", link: "#", type: "image", slogan: "Innovate your work.", isActive: true },
+      { category: "Technology", title: "Next-gen Headphones", desc: "Experience pure sound", img: "https://via.placeholder.com/300x200", expiry: "2025-02-01", link: "#", type: "image", slogan: "Listen to the future.", isActive: true },
+      { category: "Fashion & Beauty", title: "Premium Skincare", desc: "Radiance Redefined", img: "https://via.placeholder.com/300x200", expiry: "2024-07-01", link: "#", type: "image", slogan: "Glow with confidence.", isActive: true },
+      { category: "Food & Beverage", title: "Pizza Special", desc: "Hot & Tasty", img: "https://via.placeholder.com/300x200", expiry: "2025-04-01", link: "#", type: "image", slogan: "A slice of heaven.", isActive: true },
+  {
+    category: "Technology",
+    title: "test",
+    desc: "test",
+    slogan: "test",
+    type: "html",
+    startDate: "",
+    endDate: "",
+    isActive: false,
+    html: "<dev>\n<a>\ntest\n</a>\ntest test test test test test test test test test\n\n<dev>"
+  }
+    ];
+    
+    const categoryGrid = document.getElementById("categoryGrid");
+    const adsSection = document.getElementById("adsSection");
+    const adsGrid = document.getElementById("adsGrid");
+    const adsTitle = document.getElementById("adsTitle");
+    const adsDesc = document.getElementById("adsDesc");
+    const adsCount = document.getElementById("adsCount");
+    const adHeader = document.getElementById("ad-header");
+    const backButton = document.getElementById("backButton");
+    const landingSection = document.getElementById("landing-section");
+
+    function displayCategories() {
+      categoryGrid.innerHTML = "";
+      categories.forEach(cat => {
+        const categoryAds = ads.filter(ad => ad.category === cat.name && ad.isActive);
+        if (categoryAds.length > 0) {
+          const div = document.createElement("div");
+          div.className = `p-6 rounded-lg shadow-lg cursor-pointer text-center ${cat.color} transform hover:scale-105 transition-transform duration-300`;
+          div.innerHTML = `<div class="text-4xl mb-2">${cat.icon}</div><div class="text-lg font-bold">${cat.name}</div><div class="text-sm opacity-80">${cat.desc}</div>`;
+          div.onclick = () => showAds(cat);
+          categoryGrid.appendChild(div);
+        }
+      });
+    }
+
+    function showAds(category) {
+      landingSection.classList.add("hidden");
+      adsSection.classList.remove("hidden");
+      adsTitle.textContent = category.name;
+      adsDesc.textContent = category.desc;
+      adHeader.className = `${category.color} p-6 rounded-lg shadow-lg mb-6 text-white text-center`;
+
+      adsGrid.innerHTML = "";
+      const filteredAds = ads.filter(ad => ad.category === category.name && ad.isActive);
+      adsCount.textContent = `${filteredAds.length} active advertisement${filteredAds.length > 1 ? 's' : ''}`;
+
+      filteredAds.forEach(ad => {
+        let adContent = ad.type === "html" ? ad.html : `<img src="${ad.img}" class="w-full h-auto rounded-lg mb-2"/><p>${ad.desc}</p>`;
+        adsGrid.innerHTML += `<div class="bg-white p-4 rounded-lg shadow-lg transform hover:scale-105 transition-transform duration-300">
+            <p class="text-xs text-gray-500 mb-1">Expires: ${ad.expiry}</p>
+            <h3 class="font-bold text-xl mb-1">${ad.title}</h3>
+            ${adContent}
+            <p class="text-sm font-semibold mt-2 text-blue-500">"${ad.slogan}"</p>
+            <a href="${ad.link}" class="block mt-2 px-4 py-2 bg-blue-500 text-white rounded-full text-center hover:bg-blue-600">Learn More</a>
+          </div>`;
+      });
+    }
+
+    backButton.onclick = () => {
+      adsSection.classList.add("hidden");
+      landingSection.classList.remove("hidden");
+    };
+
+    window.onload = displayCategories;
+  </script>
+</body>
 </html>

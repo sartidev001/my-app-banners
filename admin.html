@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AdSpot - Admin</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    .color-picker-item { width: 40px; height: 40px; border-radius: 50%; cursor: pointer; border: 2px solid transparent; }
+    .color-picker-item.active { border-color: #3B82F6; }
+    .hidden { display: none; }
+    .card-gradient-blue { background: linear-gradient(135deg, #4F80FF, #A1C7FF); }
+    .card-gradient-pink { background: linear-gradient(135deg, #FF69B4, #FFB6C1); }
+    .card-gradient-orange { background: linear-gradient(135deg, #FF9933, #FFC16C); }
+    .card-gradient-green { background: linear-gradient(135deg, #33FF77, #99FFB3); }
+    .card-gradient-red { background: linear-gradient(135deg, #FF4500, #FF7F50); }
+    .card-gradient-purple { background: linear-gradient(135deg, #8A2BE2, #B388FF); }
+    .bg-gradient-header {
+      background-image: linear-gradient(to right, #4F80FF, #A1C7FF);
+    }
+  </style>
+</head>
+<body class="bg-gray-100 p-6">
+  <div class="max-w-4xl mx-auto">
+    <div class="text-center py-6 mb-8 rounded-xl shadow-lg bg-white">
+      <h1 class="text-4xl font-bold">AdSpot Admin Panel</h1>
+    </div>
+    
+    <div class="bg-white p-6 rounded-xl shadow-lg mb-8">
+      <div class="flex justify-between items-center mb-4">
+        <h2 class="text-2xl font-semibold">Categories Management</h2>
+        <button id="addCategoryBtn" class="px-6 py-2 bg-green-500 text-white rounded-full hover:bg-green-600 transition-colors">
+          + Add Category
+        </button>
+      </div>
+      <div id="addCategoryForm" class="hidden p-4 border rounded-lg">
+        <h3 class="text-xl font-semibold mb-2">Create New Category</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="col-span-1">
+            <label class="block text-gray-700 font-bold mb-2">Category Name</label>
+            <input id="catName" class="border p-3 w-full rounded-lg" placeholder="Enter category name">
+          </div>
+          <div class="col-span-1">
+            <label class="block text-gray-700 font-bold mb-2">Icon</label>
+            <input id="catIcon" class="border p-3 w-full rounded-lg" placeholder="Enter emoji icon">
+          </div>
+          <div class="col-span-2">
+            <label class="block text-gray-700 font-bold mb-2">Description</label>
+            <textarea id="catDesc" class="border p-3 w-full rounded-lg" placeholder="Enter category description"></textarea>
+          </div>
+          <div class="col-span-2">
+            <label class="block text-gray-700 font-bold mb-2">Color Theme</label>
+            <div id="colorPicker" class="flex space-x-2">
+              <div class="color-picker-item bg-blue-500" data-color="card-gradient-blue"></div>
+              <div class="color-picker-item bg-pink-500" data-color="card-gradient-pink"></div>
+              <div class="color-picker-item bg-orange-500" data-color="card-gradient-orange"></div>
+              <div class="color-picker-item bg-green-500" data-color="card-gradient-green"></div>
+              <div class="color-picker-item bg-red-500" data-color="card-gradient-red"></div>
+              <div class="color-picker-item bg-purple-500" data-color="card-gradient-purple"></div>
+            </div>
+          </div>
+        </div>
+        <div id="categoryPreview" class="mt-4 p-4 rounded-lg text-white shadow-lg text-center">
+          <div id="previewIcon" class="text-4xl mb-2"></div>
+          <div id="previewName" class="text-lg font-bold">Category Name</div>
+          <div id="previewDesc" class="text-sm opacity-80">Category description</div>
+        </div>
+        <div class="flex justify-end mt-4 space-x-2">
+          <button id="cancelCatBtn" class="px-6 py-2 bg-gray-300 text-gray-800 rounded-full hover:bg-gray-400">Cancel</button>
+          <button id="createCatBtn" class="px-6 py-2 bg-blue-500 text-white rounded-full hover:bg-blue-600">Create Category</button>
+        </div>
+      </div>
+    </div>
+    
+    <div class="bg-white p-6 rounded-xl shadow-lg mb-8">
+      <div class="flex justify-between items-center mb-4">
+        <h2 class="text-2xl font-semibold">Ads Management</h2>
+        <button id="addAdBtn" class="px-6 py-2 bg-blue-500 text-white rounded-full hover:bg-blue-600 transition-colors">
+          + Add New Ad
+        </button>
+      </div>
+      <div id="addAdForm" class="hidden p-4 border rounded-lg">
+        <h3 class="text-xl font-semibold mb-2">Create New Advertisement</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="col-span-1">
+            <label class="block text-gray-700 font-bold mb-2">Title *</label>
+            <input id="adTitle" class="border p-3 w-full rounded-lg" placeholder="Enter ad title">
+          </div>
+          <div class="col-span-1">
+            <label class="block text-gray-700 font-bold mb-2">Category *</label>
+            <select id="adCategory" class="border p-3 w-full rounded-lg"></select>
+          </div>
+          <div class="col-span-2">
+            <label class="block text-gray-700 font-bold mb-2">Description *</label>
+            <textarea id="adDesc" class="border p-3 w-full rounded-lg" placeholder="Enter ad description"></textarea>
+          </div>
+          <div class="col-span-2">
+            <label class="block text-gray-700 font-bold mb-2">Slogan (Optional)</label>
+            <div class="relative">
+              <input id="adSlogan" class="border p-3 w-full rounded-lg" placeholder="Enter a catchy slogan">
+              <button id="generateSlogan" class="absolute right-2 top-1/2 -translate-y-1/2 px-4 py-1 bg-gray-200 text-gray-700 rounded-full text-xs">AI Generate</button>
+            </div>
+          </div>
+          <div class="col-span-1">
+            <label class="block text-gray-700 font-bold mb-2">Ad Type *</label>
+            <select id="adType" class="border p-3 w-full rounded-lg">
+              <option value="image">Image Ad</option>
+              <option value="html">Custom HTML</option>
+            </select>
+          </div>
+          <div class="col-span-1">
+            <label class="block text-gray-700 font-bold mb-2">Start Date *</label>
+            <input id="startDate" type="date" class="border p-3 w-full rounded-lg">
+          </div>
+          <div class="col-span-1">
+            <label class="block text-gray-700 font-bold mb-2">End Date *</label>
+            <input id="endDate" type="date" class="border p-3 w-full rounded-lg">
+          </div>
+        </div>
+        <div id="imageFields" class="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="col-span-1">
+            <label class="block text-gray-700 font-bold mb-2">Image URL *</label>
+            <input id="adImg" class="border p-3 w-full rounded-lg" placeholder="https://example.com/image.jpg">
+          </div>
+          <div class="col-span-1">
+            <label class="block text-gray-700 font-bold mb-2">Click Link (Optional)</label>
+            <input id="adLink" class="border p-3 w-full rounded-lg" placeholder="https://example.com/destination">
+          </div>
+          <div class="col-span-1">
+            <label class="block text-gray-700 font-bold mb-2">Size</label>
+            <select id="adSize" class="border p-3 w-full rounded-lg">
+              <option value="300x200">Default 300x200 (Medium Rectangle)</option>
+              <option value="300x250">Medium Rectangle 300x250</option>
+              <option value="336x280">Large Rectangle 336x280</option>
+              <option value="728x90">Leaderboard 728x90</option>
+              <option value="970x250">Billboard 970x250</option>
+              <option value="160x600">Wide Skyscraper 160x600</option>
+              <option value="320x100">Large Mobile Banner 320x100</option>
+              <option value="custom">Custom Size</option>
+              <option value="16:9">16:9</option>
+            </select>
+          </div>
+          <div id="customSizeFields" class="hidden col-span-1 grid grid-cols-2 gap-4">
+            <div>
+              <label class="block text-gray-700 font-bold mb-2">Width (px)</label>
+              <input id="customWidth" class="border p-3 w-full rounded-lg" placeholder="Width (px)">
+            </div>
+            <div>
+              <label class="block text-gray-700 font-bold mb-2">Height (px)</label>
+              <input id="customHeight" class="border p-3 w-full rounded-lg" placeholder="Height (px)">
+            </div>
+          </div>
+        </div>
+        <div id="htmlField" class="hidden mt-4">
+          <label class="block text-gray-700 font-bold mb-2">HTML/iFrame Code *</label>
+          <textarea id="adHtml" class="border p-3 w-full rounded-lg" placeholder="HTML/iFrame Code" rows="8"></textarea>
+        </div>
+        <div class="flex items-center mt-4">
+          <input id="isActive" type="checkbox" class="h-4 w-4 text-blue-600 border-gray-300 rounded" checked>
+          <label for="isActive" class="ml-2 text-gray-700">Advertisement is active</label>
+        </div>
+        <div class="flex justify-end mt-4 space-x-2">
+          <button id="clearAdBtn" class="px-6 py-2 bg-red-500 text-white rounded-full hover:bg-red-600">Clear</button>
+          <button id="cancelAdBtn" class="px-6 py-2 bg-gray-300 text-gray-800 rounded-full hover:bg-gray-400">Cancel</button>
+          <button id="createAdBtn" class="px-6 py-2 bg-blue-500 text-white rounded-full hover:bg-blue-600">Create Advertisement</button>
+        </div>
+      </div>
+    </div>
+    
+    <div class="bg-white p-6 rounded-xl shadow-lg">
+      <h2 class="text-2xl font-semibold mb-4">Generated Snippets</h2>
+      <p class="text-gray-600 mb-2">Copy and paste these snippets into your <code>index.html</code> file to update the content.</p>
+      <div class="mb-6">
+        <label class="block text-lg font-semibold mb-2">Categories JSON</label>
+        <pre id="catOutput" class="bg-gray-100 p-4 rounded-lg text-sm overflow-x-auto"></pre>
+      </div>
+      <div>
+        <label class="block text-lg font-semibold mb-2">Ads JSON</label>
+        <pre id="adsOutput" class="bg-gray-100 p-4 rounded-lg text-sm overflow-x-auto"></pre>
+      </div>
+    </div>
+  </div>
+  
+  <script>
+    const allCategories = [
+      { name: "Technology", icon: "💻", desc: "Latest tech products and services", color: "card-gradient-blue" },
+      { name: "Fashion & Beauty", icon: "👗", desc: "Clothing, accessories, and beauty products", color: "card-gradient-pink" },
+      { name: "Travel & Tourism", icon: "✈️", desc: "Hotels, flights, and travel experiences", color: "card-gradient-orange" },
+      { name: "Food & Beverage", icon: "☕", desc: "Restaurants, cafes, and food delivery", color: "card-gradient-green" },
+      { name: "Finance", icon: "💰", desc: "Financial services, tools, and advice", color: "card-gradient-red" },
+      { name: "Fitness", icon: "🏋️", desc: "Medical services, gyms, and wellness", color: "card-gradient-purple" }
+    ];
+    const allAds = [];
+
+    // Helper function to stringify object without quotes on keys
+    function stringifyWithoutQuotes(obj) {
+      if (typeof obj !== 'object' || obj === null) {
+        return JSON.stringify(obj);
+      }
+      const parts = [];
+      for (const key in obj) {
+        if (Object.prototype.hasOwnProperty.call(obj, key)) {
+          let value = obj[key];
+          let valueString;
+          if (typeof value === 'string' && !key.startsWith('html')) {
+            valueString = `'${value.replace(/'/g, "\\'")}'`;
+          } else if (typeof value === 'object' && value !== null) {
+            valueString = stringifyWithoutQuotes(value);
+          } else {
+            valueString = JSON.stringify(value);
+          }
+          parts.push(`${key}: ${valueString}`);
+        }
+      }
+      return `{ ${parts.join(', ')} }`;
+    }
+
+    // Category Logic
+    const addCategoryBtn = document.getElementById('addCategoryBtn');
+    const addCategoryForm = document.getElementById('addCategoryForm');
+    const cancelCatBtn = document.getElementById('cancelCatBtn');
+    
+    addCategoryBtn.onclick = () => { addCategoryForm.classList.remove('hidden'); };
+    cancelCatBtn.onclick = () => { addCategoryForm.classList.add('hidden'); };
+
+    const catNameInput = document.getElementById('catName');
+    const catIconInput = document.getElementById('catIcon');
+    const catDescInput = document.getElementById('catDesc');
+    const colorPicker = document.getElementById('colorPicker');
+    const previewName = document.getElementById('previewName');
+    const previewIcon = document.getElementById('previewIcon');
+    const previewDesc = document.getElementById('previewDesc');
+    const categoryPreview = document.getElementById('categoryPreview');
+    const createCatBtn = document.getElementById('createCatBtn');
+    
+    let selectedColor = 'card-gradient-blue';
+    categoryPreview.className = `mt-4 p-4 rounded-lg text-white shadow-lg text-center ${selectedColor}`;
+
+    catNameInput.addEventListener('input', () => { previewName.textContent = catNameInput.value || "Category Name"; });
+    catIconInput.addEventListener('input', () => { previewIcon.textContent = catIconInput.value || "🚀"; });
+    catDescInput.addEventListener('input', () => { previewDesc.textContent = catDescInput.value || "Category description"; });
+    colorPicker.querySelectorAll('.color-picker-item').forEach(item => {
+      item.addEventListener('click', () => {
+        colorPicker.querySelectorAll('.color-picker-item').forEach(i => i.classList.remove('active'));
+        item.classList.add('active');
+        selectedColor = item.dataset.color;
+        categoryPreview.className = `mt-4 p-4 rounded-lg text-white shadow-lg text-center ${selectedColor}`;
+      });
+    });
+    createCatBtn.addEventListener('click', () => {
+      const newCat = {
+        name: catNameInput.value,
+        icon: catIconInput.value,
+        desc: catDescInput.value,
+        color: selectedColor
+      };
+      allCategories.push(newCat);
+      updateOutput(newCat, 'category');
+    });
+
+    // Ad Logic
+    const addAdBtn = document.getElementById('addAdBtn');
+    const addAdForm = document.getElementById('addAdForm');
+    const cancelAdBtn = document.getElementById('cancelAdBtn');
+    const clearAdBtn = document.getElementById('clearAdBtn');
+
+    addAdBtn.onclick = () => { addAdForm.classList.remove('hidden'); };
+    cancelAdBtn.onclick = () => { addAdForm.classList.add('hidden'); };
+
+    const adTitleInput = document.getElementById('adTitle');
+    const adDescTextarea = document.getElementById('adDesc');
+    const adSloganInput = document.getElementById('adSlogan');
+    const adTypeSelect = document.getElementById('adType');
+    const startDateInput = document.getElementById('startDate');
+    const endDateInput = document.getElementById('endDate');
+    const isActiveCheckbox = document.getElementById('isActive');
+    const adImgInput = document.getElementById('adImg');
+    const adLinkInput = document.getElementById('adLink');
+    const adSizeSelect = document.getElementById('adSize');
+    const customWidthInput = document.getElementById('customWidth');
+    const customHeightInput = document.getElementById('customHeight');
+    const adHtmlTextarea = document.getElementById('adHtml');
+
+    const imageFields = document.getElementById('imageFields');
+    const htmlField = document.getElementById('htmlField');
+    const customSizeFields = document.getElementById('customSizeFields');
+    const adCategorySelect = document.getElementById('adCategory');
+    const generateSloganBtn = document.getElementById('generateSlogan');
+
+    adTypeSelect.addEventListener('change', () => {
+      if (adTypeSelect.value === 'image') {
+        imageFields.classList.remove('hidden');
+        htmlField.classList.add('hidden');
+      } else {
+        imageFields.classList.add('hidden');
+        htmlField.classList.remove('hidden');
+      }
+    });
+
+    adSizeSelect.addEventListener('change', () => {
+      if (adSizeSelect.value === 'custom') {
+        customSizeFields.classList.remove('hidden');
+      } else {
+        customSizeFields.classList.add('hidden');
+      }
+    });
+
+    generateSloganBtn.addEventListener('click', () => {
+      const slogans = ["Innovate your work.", "Glow with confidence.", "A slice of heaven.", "Listen to the future."];
+      adSloganInput.value = slogans[Math.floor(Math.random() * slogans.length)];
+    });
+
+    clearAdBtn.onclick = () => {
+      adTitleInput.value = '';
+      adDescTextarea.value = '';
+      adSloganInput.value = '';
+      adTypeSelect.value = 'image';
+      startDateInput.value = '';
+      endDateInput.value = '';
+      isActiveCheckbox.checked = true;
+      adImgInput.value = '';
+      adLinkInput.value = '';
+      adSizeSelect.value = '300x200';
+      customWidthInput.value = '';
+      customHeightInput.value = '';
+      adHtmlTextarea.value = '';
+      imageFields.classList.remove('hidden');
+      htmlField.classList.add('hidden');
+      customSizeFields.classList.add('hidden');
+    };
+
+    document.getElementById('createAdBtn').addEventListener('click', () => {
+      let newAd = {
+        category: adCategorySelect.value,
+        title: adTitleInput.value,
+        desc: adDescTextarea.value,
+        slogan: adSloganInput.value,
+        type: adTypeSelect.value,
+        startDate: startDateInput.value,
+        endDate: endDateInput.value
+      };
+
+      if (newAd.type === 'image') {
+        newAd.img = adImgInput.value;
+        newAd.link = adLinkInput.value;
+        newAd.size = adSizeSelect.value;
+        if (newAd.size === 'custom') {
+          newAd.customWidth = customWidthInput.value;
+          newAd.customHeight = customHeightInput.value;
+        }
+      } else {
+        newAd.html = adHtmlTextarea.value;
+      }
+
+      newAd.isActive = isActiveCheckbox.checked;
+
+      allAds.push(newAd);
+      updateOutput(newAd, 'ad');
+    });
+
+    function updateOutput(newItem, type) {
+      const output = type === 'category' ? document.getElementById('catOutput') : document.getElementById('adsOutput');
+      const snippet = stringifyWithoutQuotes(newItem);
+      output.textContent = `${snippet},`;
+    }
+
+    window.onload = () => {
+      allCategories.forEach(cat => {
+        const opt = document.createElement("option");
+        opt.value = cat.name;
+        opt.textContent = cat.name;
+        adCategorySelect.appendChild(opt);
+      });
+    };
+  </script>
+</body>
+</html>
