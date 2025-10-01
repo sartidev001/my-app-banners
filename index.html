@@ -92,7 +92,7 @@
             <p class="text-xs text-gray-500 mb-1">Expires: ${ad.expiry}</p>
             <h3 class="font-bold text-xl mb-1">${ad.title}</h3>
             ${adContent}
-            <p class="text-sm font-semibold mt-2 text-blue-500">"${ad.slogan}"</p>
+            <p class="text-sm font-semibold mt-2 text-blue-500">${ad.slogan ? `"${ad.slogan}"` : ''}</p>
             <a href="${ad.link}" class="block mt-2 px-4 py-2 bg-blue-500 text-white rounded-full text-center hover:bg-blue-600">Learn More</a>
           </div>`;
       });
