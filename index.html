@@ -44,10 +44,10 @@
     ];
     const ads = [
       { category: 'Technology', title: 'Morocco news app', desc: 'انغمس في عالم الأخبار المغربية من خلال تطبيقنا الشامل', slogan: '', type: 'image', startDate: '', endDate: '2025-11-09', img: 'https://sartidev001.github.io/my-app-banners/assets/img/appads.png', link: 'https://play.google.com/store/apps/details?id=com.sartidev.morocconews', size: '300x200', isActive: true },
-      { category: "Technology", title: "MacBook Pro M3 Max", desc: "Power Beyond Limits", img: "https://via.placeholder.com/300x200", expiry: "2025-01-01", link: "#", type: "image", slogan: "Innovate your work.", isActive: true },
-      { category: "Technology", title: "Next-gen Headphones", desc: "Experience pure sound", img: "https://via.placeholder.com/300x200", expiry: "2025-02-01", link: "#", type: "image", slogan: "Listen to the future.", isActive: true },
-      { category: "Fashion & Beauty", title: "Premium Skincare", desc: "Radiance Redefined", img: "https://via.placeholder.com/300x200", expiry: "2024-07-01", link: "#", type: "image", slogan: "Glow with confidence.", isActive: true },
-      { category: "Food & Beverage", title: "Pizza Special", desc: "Hot & Tasty", img: "https://via.placeholder.com/300x200", expiry: "2025-04-01", link: "#", type: "image", slogan: "A slice of heaven.", isActive: true },
+      { category: "Technology", title: "MacBook Pro M3 Max", desc: "Power Beyond Limits", img: "https://via.placeholder.com/300x200", endDate: "2025-01-01", link: "#", type: "image", slogan: "Innovate your work.", isActive: true },
+      { category: "Technology", title: "Next-gen Headphones", desc: "Experience pure sound", img: "https://via.placeholder.com/300x200", endDate: "2025-02-01", link: "#", type: "image", slogan: "Listen to the future.", isActive: true },
+      { category: "Fashion & Beauty", title: "Premium Skincare", desc: "Radiance Redefined", img: "https://via.placeholder.com/300x200", endDate: "2024-07-01", link: "#", type: "image", slogan: "Glow with confidence.", isActive: true },
+      { category: "Food & Beverage", title: "Pizza Special", desc: "Hot & Tasty", img: "https://via.placeholder.com/300x200", endDate: "2025-04-01", link: "#", type: "image", slogan: "A slice of heaven.", isActive: true },
 
     ];
     
@@ -89,7 +89,7 @@
       filteredAds.forEach(ad => {
         let adContent = ad.type === "html" ? ad.html : `<img src="${ad.img}" class="w-full h-auto rounded-lg mb-2"/><p>${ad.desc}</p>`;
         adsGrid.innerHTML += `<div class="bg-white p-4 rounded-lg shadow-lg transform hover:scale-105 transition-transform duration-300">
-            <p class="text-xs text-gray-500 mb-1">Expires: ${ad.expiry}</p>
+            <p class="text-xs text-gray-500 mb-1">${ad.endDate ? `Expires: ${ad.endDate}` : ''}</p>
             <h3 class="font-bold text-xl mb-1">${ad.title}</h3>
             ${adContent}
             <p class="text-sm font-semibold mt-2 text-blue-500">${ad.slogan ? `"${ad.slogan}"` : ''}</p>
